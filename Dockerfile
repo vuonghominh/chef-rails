@@ -25,4 +25,4 @@ COPY . .
 EXPOSE 3000
 
 # Starts the Puma server.
-CMD bundle exec puma -C config/puma.rb
+CMD foreman start
