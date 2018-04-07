@@ -1,4 +1,8 @@
 application = "chef-rails"
+root_folder = "/home/deployer/www"
+
+pidfile "#{root_folder}/#{application}/shared/tmp/pids/puma.pid"
+stdout_redirect "#{root_folder}/#{application}/current/log/puma.error.log", "#{root_folder}/#{application}/current/log/puma.access.log", true
 
 workers Integer(ENV['PUMA_WORKERS']|| 2)
 threads Integer(ENV['MIN_THREADS'] || 1), Integer(ENV['MAX_THREADS'] || 16)
@@ -6,7 +10,7 @@ threads Integer(ENV['MIN_THREADS'] || 1), Integer(ENV['MAX_THREADS'] || 16)
 preload_app!
 
 rackup      DefaultRackup
-bind        ENV['PUMA_SOCKET'] || "unix:///home/deployer/www/#{application}/shared/tmp/sockets/#{application}-puma.sock"
+bind        ENV['PUMA_SOCKET'] || "unix://#{root_folder}/#{application}/shared/tmp/sockets/#{application}-puma.sock"
 environment ENV['RACK_ENV'] || 'development'
 
 worker_timeout = ENV['PUMA_WORKER_TIMEOUT'].to_i + 60
